@@ -32,3 +32,7 @@ func (c *CreateSlot) Generate(commandStr string) (Command, error) {
 
 	return nil, fmt.Errorf("command %s is not matched with 'CreateSlot Command'", commandStr)
 }
+
+func (c *CreateSlot) HelpUsage() string {
+	return "create [size] - Creates parking lot of size n"
+}

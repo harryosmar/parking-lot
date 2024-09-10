@@ -6,7 +6,7 @@ type ParkingLot struct {
 	firstNHours         uint
 	costFirstNHours     float32
 	costAdditionalHours float32
-	spacesLen           uint
+	slotLen             uint
 	tickets             map[uint]string
 }
 
@@ -15,7 +15,7 @@ func NewParkingLot(firstNHours uint, costFirstNHours float32, costAdditionalHour
 		firstNHours:         firstNHours,
 		costFirstNHours:     costFirstNHours,
 		costAdditionalHours: costAdditionalHours,
-		spacesLen:           0,
+		slotLen:             0,
 		tickets:             map[uint]string{},
 	}
 
@@ -28,12 +28,12 @@ func (p *ParkingLot) Run(commands ...Command) {
 }
 
 func (p *ParkingLot) CreateSlot(size uint) {
-	p.spacesLen = p.spacesLen + size
-	fmt.Printf("Created parking lot with %d slots\n", p.spacesLen)
+	p.slotLen = p.slotLen + size
+	fmt.Printf("Created parking lot with %d slots\n", p.slotLen)
 }
 
 func (p *ParkingLot) Park(registrationNumber string) {
-	if int(p.spacesLen) == len(p.tickets) {
+	if int(p.slotLen) == len(p.tickets) {
 		println("Sorry, parking lot is full")
 		return
 	}
@@ -46,7 +46,7 @@ func (p *ParkingLot) Park(registrationNumber string) {
 	}
 
 	var i uint
-	for i = 1; i <= p.spacesLen; i++ {
+	for i = 1; i <= p.slotLen; i++ {
 		if _, found := p.tickets[i]; !found {
 			p.tickets[i] = registrationNumber
 			fmt.Printf("Allocated slot number: %d\n", i)
@@ -79,13 +79,13 @@ func (p *ParkingLot) CalculateCost(durationInHour uint) float32 {
 }
 
 func (p *ParkingLot) Status() string {
-	result := "Slot No. Registration No.\n"
+	result := "Slot No.\tRegistration No.\n"
 
 	var i uint
-	for i = 1; i <= p.spacesLen; i++ {
-		slotStr := fmt.Sprintf("%d	-\n", i)
+	for i = 1; i <= p.slotLen; i++ {
+		slotStr := fmt.Sprintf("%d\t\t-\n", i)
 		if registrationNumber, found := p.tickets[i]; found {
-			slotStr = fmt.Sprintf("%d	%s\n", i, registrationNumber)
+			slotStr = fmt.Sprintf("%d\t\t%s\n", i, registrationNumber)
 		}
 
 		result = fmt.Sprintf("%s%s", result, slotStr)

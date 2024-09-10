@@ -29,3 +29,7 @@ func (p *Park) Generate(commandStr string) (Command, error) {
 
 	return nil, fmt.Errorf("command %s is not matched with 'Park Command'", commandStr)
 }
+
+func (p *Park) HelpUsage() string {
+	return "park [car-number] - Parks a car"
+}

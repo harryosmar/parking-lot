@@ -37,3 +37,7 @@ func (l *Leave) Generate(commandStr string) (Command, error) {
 
 	return nil, fmt.Errorf("command %s is not matched with 'Leave Command'", commandStr)
 }
+
+func (l *Leave) HelpUsage() string {
+	return "leave [car-number] [hours] -> Removes (unpark) a car"
+}

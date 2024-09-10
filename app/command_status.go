@@ -25,3 +25,7 @@ func (s *Status) Generate(commandStr string) (Command, error) {
 
 	return nil, fmt.Errorf("command %s is not matched with 'Park Command'", commandStr)
 }
+
+func (s *Status) HelpUsage() string {
+	return "status -> Prints status of the parking lot"
+}

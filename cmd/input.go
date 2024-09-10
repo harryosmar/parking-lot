@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"github.com/harryosmar/parking-lot/app"
 	"github.com/harryosmar/parking-lot/config"
-	"os"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // inputCmd represents the input command
@@ -14,20 +13,13 @@ var inputCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Use:   "input /path/to/file.txt",
 	Short: "Consume input from file contains commands",
-	Long: `The system accept a filename as a parameter and read the commands from that file.
-List of Commands :
-create [size] - Creates parking lot of size n
-park [car-number] - Parks a car
-leave [car-number] [hours] -> Removes (unpark) a car
-status -> Prints status of the parking lot
-
-Examples of Input (content of file) :
-create 6
-park KA-01-HH-1234
-leave KA-01-HH-3141 4
-status
-park KA-09-HH-0987
-`,
+	Long: fmt.Sprintf(
+		"The system accept a filename as a parameter and read the commands from that file.\nList of Commands :\n%s\n%s\n%s\n%s",
+		(&app.CreateSlot{}).HelpUsage(),
+		(&app.Park{}).HelpUsage(),
+		(&app.Leave{}).HelpUsage(),
+		(&app.Status{}).HelpUsage(),
+	),
 	Run: func(cmd *cobra.Command, args []string) {
 		filePath := args[0]
 		err := processFile(filePath)

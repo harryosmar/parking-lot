@@ -42,13 +42,13 @@ func TestRunCommands(t *testing.T) {
 				},
 				parkingLot: app.NewParkingLot(2, 10, 5),
 			},
-			expectedStatus: `Slot No. Registration No.
-1	KA-09-HH-0987
-2	KA-01-HH-9999
-3	CA-09-IO-1111
-4	KA-01-HH-7777
-5	KA-01-HH-2701
-6	KA-01-P-333
+			expectedStatus: `Slot No.	Registration No.
+1		KA-09-HH-0987
+2		KA-01-HH-9999
+3		CA-09-IO-1111
+4		KA-01-HH-7777
+5		KA-01-HH-2701
+6		KA-01-P-333
 `,
 		},
 	}
