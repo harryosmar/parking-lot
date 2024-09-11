@@ -1,6 +1,9 @@
 package app
 
-import "strings"
+import (
+	"strings"
+	"sync"
+)
 
 type CommandGenerator struct {
 	availableCommands []Command
@@ -22,14 +25,39 @@ func (c CommandGenerator) GenerateFromString(input string) []Command {
 			continue
 		}
 
-		for _, command := range c.availableCommands {
-			validCommand, err := command.Generate(line)
-			if err == nil {
-				commands = append(commands, validCommand)
-				break
-			}
+		command := c.resolveLineToCommand(line)
+		if command != nil {
+			commands = append(commands, command)
 		}
 	}
 
 	return commands
+}
+
+func (c CommandGenerator) resolveLineToCommand(line string) Command {
+	var wg sync.WaitGroup
+	wg.Add(len(c.availableCommands))
+	commandCh := make(chan Command)
+
+	for _, command := range c.availableCommands {
+		go func(command Command) {
+			defer wg.Done()
+
+			validCommand, err := command.Generate(line)
+			if err == nil {
+				commandCh <- validCommand
+			}
+		}(command)
+	}
+
+	go func() {
+		wg.Wait()
+		close(commandCh)
+	}()
+
+	for validCommand := range commandCh {
+		return validCommand
+	}
+
+	return nil
 }
